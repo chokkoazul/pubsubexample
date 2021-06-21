@@ -1,4 +1,4 @@
-package producertask;
+package com.chokko.subscribeTask;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,13 +19,12 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
 @SpringBootApplication
-public class ProducerTaskApplication {
+public class SubscribeTaskApplication {
 
-	private static final Log LOGGER = LogFactory.getLog(ProducerTaskApplication.class);
-
+	private static final Log LOGGER = LogFactory.getLog(SubscribeTaskApplication.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProducerTaskApplication.class, args);
+		SpringApplication.run(SubscribeTaskApplication.class, args);
 	}
 
 	@Bean
@@ -45,16 +44,16 @@ public class ProducerTaskApplication {
 		return adapter;
 	}
 
-	/*@Bean
+	@Bean
 	@ServiceActivator(inputChannel = "pubsubInputChannel")
 	public MessageHandler messageReceiver() {
 		return message -> {
 			LOGGER.info("Message arrived! Payload: " + new String((byte[]) message.getPayload()));
-			//BasicAcknowledgeablePubsubMessage originalMessage =
-			//		message.getHeaders().get(GcpPubSubHeaders.ORIGINAL_MESSAGE, BasicAcknowledgeablePubsubMessage.class);
-			//originalMessage.ack();
+			BasicAcknowledgeablePubsubMessage originalMessage =
+					message.getHeaders().get(GcpPubSubHeaders.ORIGINAL_MESSAGE, BasicAcknowledgeablePubsubMessage.class);
+			originalMessage.ack();
 		};
-	}*/
+	}
 
 
 	@Bean
@@ -68,5 +67,6 @@ public class ProducerTaskApplication {
 
 		void sendToPubsub(String text);
 	}
+
 
 }
